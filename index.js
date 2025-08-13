@@ -92,31 +92,58 @@ const characters = [
   "/",
 ];
 
-let firstPassword = "";
-let secondPassword = "";
-
-let firstPassEl = document.getElementById("pass-one-el");
-let secondPassEl = document.getElementById("pass-sec-el");
+const firstPassEl = document.getElementById("pass-one-el"); // First password element
+const secondPassEl = document.getElementById("pass-sec-el"); // Second password element
+const copyMessageEl = document.getElementById("copy-message"); // Copy message element
+const passwordLengthInput = document.getElementById("password-length"); // Password length input
 
 function generatePassword() {
-  firstPassword = "";
-  secondPassword = "";
-  for (let i = 1; i < 16; i++) {
+  const length = Math.max(
+    6,
+    Math.min(32, Number(passwordLengthInput.value) || 15),
+  );
+  let firstPassword = "";
+  let secondPassword = "";
+  for (let i = 0; i < length; i++) {
     firstPassword += characters[Math.floor(Math.random() * characters.length)];
     secondPassword += characters[Math.floor(Math.random() * characters.length)];
   }
   firstPassEl.textContent = firstPassword;
   secondPassEl.textContent = secondPassword;
+  firstPassEl.disabled = false;
+  secondPassEl.disabled = false;
+  copyMessageEl.textContent = "";
+
+  // Remove previous length classes
+  firstPassEl.classList.remove("short", "medium", "long");
+  secondPassEl.classList.remove("short", "medium", "long");
+
+  // Add color class based on length
+  const getLengthClass = (len) =>
+    len < 10 ? "short" : len < 20 ? "medium" : "long";
+  firstPassEl.classList.add(getLengthClass(firstPassword.length));
+  secondPassEl.classList.add(getLengthClass(secondPassword.length));
 }
 
-function copyPassword() {
-  let text = document.getElementById("pass-one-el").innerText;
+// Copy password to clipboard
+function copyPassword(elementId) {
+  const text = document.getElementById(elementId).textContent;
+  if (!text) return;
   navigator.clipboard
     .writeText(text)
     .then(() => {
-      alert("Text copied to clipboard");
+      showCopyMessage("Copied!");
     })
     .catch((err) => {
+      showCopyMessage("Failed to copy");
       console.error("Failed to copy: ", err);
     });
+}
+
+// Show copy message
+function showCopyMessage(msg) {
+  copyMessageEl.textContent = msg;
+  setTimeout(() => {
+    copyMessageEl.textContent = "";
+  }, 1200);
 }
