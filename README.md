@@ -1,8 +1,8 @@
 # Password Generator
 
 - This is an amazing password generator app.
-- It generates two password at a time after clicking on Generate password button.
-- After clicking on the generated password, it will copy the password to the clipboard.
+- By clicking on Generate password button, It will generates two passwords at a time 
+- Click once to copy the password to the clipboard.
 
 # Getting Started
 
@@ -14,5 +14,8 @@ npm start
 ```
 
 Head over to https://vitejs.dev/ to learn more about configuring vite
+<<<<<<< HEAD
 
 Happy Coding!
+=======
+>>>>>>> b21aedec3a03d1697922ea47500277ffc02a8568
